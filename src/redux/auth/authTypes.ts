@@ -6,7 +6,7 @@ export type AuthInitialStateType = {
     userSid: string | null;
     accessToken: string | null;
     refreshToken: string | null;
-    transactions: any[] | null;
+    transactions: Transaction[] | null;
     balance: number | null;
 };
 
