@@ -2,8 +2,17 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import Notiflix from 'notiflix';
 import {clearAuthHeader, setAuthHeader} from '../../services/instance';
 import {getUserInfoApi, loginUserApi, logoutUserApi, registerUserApi} from '../../services/authService';
+import {
+  GetUserResponse,
+  LoginUserData,
+  LoginUserResponse,
+  NotificationOptionsInterface,
+  RegisterUserData,
+  RegisterUserResponse
+} from './authTypes';
+import {RootState} from '../store';
 
-const notlifixOptions = {
+const notlifixOptions:NotificationOptionsInterface = {
   failure: {
     position: 'right-top',
     distance: '80px',
@@ -20,17 +29,7 @@ const notlifixOptions = {
   },
 };
 
-// interface RegisterUserData {
-//     email: string;
-//     password: string;
-//     // другие поля, если есть
-// }
-//
-// interface RegisterUserResponse {
-//     // поля ответа от сервера
-// }
-
-export const signUpThunk = createAsyncThunk(
+export const signUpThunk = createAsyncThunk<RegisterUserResponse, RegisterUserData>(
   'auth/signUp',
   async (data, { rejectWithValue }) => {
     try {
@@ -38,13 +37,18 @@ export const signUpThunk = createAsyncThunk(
       Notiflix.Notify.success('signup is success', notlifixOptions.success);
       return res;
     } catch (error) {
-      Notiflix.Notify.failure(`${error.message}`, notlifixOptions.failure);
-      return rejectWithValue(error.message);
+      if (error instanceof Error) {
+        Notiflix.Notify.failure(`${error.message}`, notlifixOptions.failure);
+        return rejectWithValue(error.message);
+      } else {
+        Notiflix.Notify.failure('Unexpected error', notlifixOptions.failure);
+        return rejectWithValue('Unexpected error');
+      }
     }
   },
 );
 
-export const loginThunk = createAsyncThunk(
+export const loginThunk = createAsyncThunk<LoginUserResponse, LoginUserData, { rejectValue: string }>(
   'auth/login',
   async (data, { rejectWithValue }) => {
     try {
@@ -53,8 +57,13 @@ export const loginThunk = createAsyncThunk(
       Notiflix.Notify.success('login is success', notlifixOptions.success);
       return res;
     } catch (error) {
-      Notiflix.Notify.failure(`${error.message}`, notlifixOptions.failure);
-      return rejectWithValue(error.message);
+      if (error instanceof Error) {
+        Notiflix.Notify.failure(`${error.message}`, notlifixOptions.failure);
+        return rejectWithValue(error.message);
+      } else {
+        Notiflix.Notify.failure('Unexpected error', notlifixOptions.failure);
+        return rejectWithValue('Unexpected error');
+      }
     }
   },
 );
@@ -68,25 +77,35 @@ export const logoutThunk = createAsyncThunk(
       Notiflix.Notify.success('logout is success', notlifixOptions.success);
       return res;
     } catch (error) {
-      Notiflix.Notify.failure(`${error.message}`, notlifixOptions.failure);
-      return rejectWithValue(error.message);
+      if (error instanceof Error) {
+        Notiflix.Notify.failure(`${error.message}`, notlifixOptions.failure);
+        return rejectWithValue(error.message);
+      } else {
+        Notiflix.Notify.failure('Unexpected error', notlifixOptions.failure);
+        return rejectWithValue('Unexpected error');
+      }
     }
   },
 );
 
-export const getUserThunk = createAsyncThunk(
+export const getUserThunk = createAsyncThunk<GetUserResponse>(
   'auth/getUser',
   async (_, { rejectWithValue, getState }) => {
     try {
-      const token = getState().auth.accessToken;
+      const token = (getState() as RootState).auth.accessToken;
       if (!token) {
         return rejectWithValue('no token');
       }
       setAuthHeader(token);
       return await getUserInfoApi();
     } catch (error) {
-      Notiflix.Notify.failure(`${error.message}`, notlifixOptions.failure);
-      return rejectWithValue(error.message);
+      if (error instanceof Error) {
+        Notiflix.Notify.failure(`${error.message}`, notlifixOptions.failure);
+        return rejectWithValue(error.message);
+      } else {
+        Notiflix.Notify.failure('Unexpected error', notlifixOptions.failure);
+        return rejectWithValue('Unexpected error');
+      }
     }
   },
 );
@@ -96,10 +115,14 @@ export const refreshThunk = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       return null;
-      // eslint-disable-next-line
-        } catch (error) {
-      Notiflix.Notify.failure(`${error.message}`, notlifixOptions.failure);
-      return rejectWithValue(error.message);
+    } catch (error) {
+      if (error instanceof Error) {
+        Notiflix.Notify.failure(`${error.message}`, notlifixOptions.failure);
+        return rejectWithValue(error.message);
+      } else {
+        Notiflix.Notify.failure('Unexpected error', notlifixOptions.failure);
+        return rejectWithValue('Unexpected error');
+      }
     }
   },
 );
@@ -110,8 +133,13 @@ export const googleAuthThunk = createAsyncThunk(
     try {
       return data;
     } catch (error) {
-      Notiflix.Notify.failure(`${error.message}`, notlifixOptions.failure);
-      return rejectWithValue(error.message);
+      if (error instanceof Error) {
+        Notiflix.Notify.failure(`${error.message}`, notlifixOptions.failure);
+        return rejectWithValue(error.message);
+      } else {
+        Notiflix.Notify.failure('Unexpected error', notlifixOptions.failure);
+        return rejectWithValue('Unexpected error');
+      }
     }
   },
 );

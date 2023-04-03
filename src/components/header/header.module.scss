@@ -1,0 +1,110 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+.logoNavLink {
+  display: flex;
+}
+
+.logo {
+  width: 100px;
+  height: 40px;
+  background-image: url('../../images/header/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.userHeaderMenu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .userIcon {
+    width: 32px;
+    height: 32px;
+    margin-right: 15px;
+    background-color: #F5F6FA;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid lightgrey;
+
+    .userNameFirstLetter {
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 1.1666;
+      letter-spacing: 0.04em;
+      color: #52555F;
+    }
+  }
+
+  .userEmail {
+    display: none;
+    font-family: 'Roboto', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: right;
+    letter-spacing: 0.04em;
+    color: #52555F;
+  }
+
+  .separator {
+    display: none;
+    width: 0;
+    margin: 0 20px;
+    height: 36px;
+    border: 1px solid #E0E5EB;
+  }
+
+  .logoutButton {
+    display: none;
+    font-family: 'Roboto', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.04em;
+    text-decoration-line: underline;
+    color: #52555F;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background-color: transparent;
+  }
+
+  .logoutButtonMobile {
+    width: 16px;
+    height: 16px;
+    background-image: url('../../images/header/logout.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    outline: none;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .userHeaderMenu {
+    .logoutButton {
+      display: block;
+    }
+
+    .logoutButtonMobile {
+      display: none;
+    }
+
+    .separator {
+      display: block;
+    }
+
+    .userEmail {
+      display: block;
+    }
+  }
+}
