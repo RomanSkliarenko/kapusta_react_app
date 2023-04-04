@@ -1,16 +1,16 @@
 import {axiosInstance} from './instance';
 
-interface IUser {
+interface UserTypes {
   email: string,
   password: string
 }
 
-export const registerUserApi = async (user:IUser) => {
+export const registerUserApi = async (user:UserTypes) => {
   const { data } = await axiosInstance.post('auth/register', user);
   return data;
 };
 
-export const loginUserApi = async (user:IUser) => {
+export const loginUserApi = async (user:UserTypes) => {
   const { data } = await axiosInstance.post('auth/login', user);
   return data;
 };
